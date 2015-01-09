@@ -112,13 +112,13 @@
 <h2 id="the-appstack-images">The Appstack Images</h2>
 <ul>
 <li><a href="#appstack-data">appstack-data</a>: A data-only container image- the heart that ties all the Appstack containers together</li>
-<li><a href="https://github.com/DockerDemos/appstack-setup-mysql">appstack-setup-mysql</a>: A MariaDB pre-configuration container image that runs once to initialize a MariaDB server.</li>
-<li><a href="https://github.com/DockerDemos/appstack-mysql">appstack-mysql</a>: A MariaDB container image for running your database server.</li>
-<li><a href="https://github.com/DockerDemos/appstack-phpfpm">appstack-phpfpm</a>: A PHP FastCGI Process Manager container image</li>
-<li><a href="https://github.com/DockerDemos/appstack-apache">appstack-apache</a>: An Apache webserver container image; designed to offload PHP processing to the appstack-phpfpm containers.</li>
-<li><a href="https://github.com/DockerDemos/appstack-wpcli">appstack-wpcli</a>: A WP-CLI container image, for automating installation, upgrades and management of WordPress sites run in an Appstack container stack.</li>
-<li><a href="https://github.com/DockerDemos/appstack-setup-drupal">appstack-setup-drupal</a>: A Drupal container image for automating the install of a Drupal website  inside an Appstack container stack.</li>
-<li><a href="https://github.com/DockerDemos/appstack-backup">appstack-backup</a>: An container image for automating MariaDB database backups.</li>
+<li><a href="#appstack-setup-mysql">appstack-setup-mysql</a>: A MariaDB pre-configuration container image that runs once to initialize a MariaDB server.</li>
+<li><a href="#appstack-mysql">appstack-mysql</a>: A MariaDB container image for running your database server.</li>
+<li><a href="#appstack-phpfpm">appstack-phpfpm</a>: A PHP FastCGI Process Manager container image</li>
+<li><a href="#appstack-apache">appstack-apache</a>: An Apache webserver container image; designed to offload PHP processing to the appstack-phpfpm containers.</li>
+<li><a href="#appstack-wpcli">appstack-wpcli</a>: A WP-CLI container image, for automating installation, upgrades and management of WordPress sites run in an Appstack container stack.</li>
+<li><a href="#appstack-setup-drupal">appstack-setup-drupal</a>: A Drupal container image for automating the install of a Drupal website  inside an Appstack container stack.</li>
+<li><a href="#appstack-backup">appstack-backup</a>: An container image for automating MariaDB database backups.</li>
 </ul>
 <h2 id="appstack-image-reference">Appstack Image Reference</h2>
 <h3 id="appstack-data"><a name="appstack-data">Appstack-Data</a></h3>
@@ -138,6 +138,19 @@
 <p>Example of mounting host volumes inside the data container:</p>
 <pre><code>docker run --name data -v /srv/html:/var/www/html -v /srv/mysql:/var/lib/mysql -v /srv/log:/var/log -v /srv/backup:/var/backup -v /srv/conf:/conf -it appstack-data
 </code></pre>
+<h3 id="appstack-setup-mysql"><a name="appstack-setup-mysql">Appstack-Setup-MySQL</a></h3>
+<p>(https://github.com/DockerDemos/appstack-setup-mysql)</p>
+<h3 id="appstack-mysql"><a name="appstack-mysql">Appstack-MySQL</a></h3>
+<p>(https://github.com/DockerDemos/appstack-mysql)</p>
+<h3 id="appstack-phpfpm"><a name="appstack-phpfpm">Appstack-PHPFPM</a></h3>
+<h3 id="appstack-apache"><a name="appstack-apache">Appstack-Apache</a></h3>
+<p>(https://github.com/DockerDemos/appstack-apache)</p>
+<h3 id="appstack-wpcli"><a name="appstack-wpcli">Appstack-WPCLI</a></h3>
+<p>(https://github.com/DockerDemos/appstack-wpcli)</p>
+<h3 id="appstack-setup-drupal"><a name="appstack-setup-drupal">Appstack-Setup-Drupal</a></h3>
+<p>(https://github.com/DockerDemos/appstack-setup-drupal)</p>
+<h3 id="appstack-backup"><a name="appstack-backup">Appstack-backup</a></h3>
+<p>(https://github.com/DockerDemos/appstack-backup)</p>
 
             </div>
           </div>
