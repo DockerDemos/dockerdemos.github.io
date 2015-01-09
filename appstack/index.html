@@ -145,8 +145,18 @@
 <p><strong>Issue Tracker:</strong> <a href="https://github.com/DockerDemos/appstack-setup-mysql/issues">https://github.com/DockerDemos/appstack-setup-mysql/issues</a></p>
 <p>The Appstack-Setup-MySQL image requires only the <code>--volumes-from &lt;data container name&gt;</code> argument to be passed when run.  It does not need anything else to function.</p>
 <p>When run, it will run the <code>mysql_install_db</code> command to initialize the MariaDB database.  It will set the root password, create a backup user and password, and create a randomly-named database.  It will then store this information in <code>/root/.secret/dbdata.yaml</code> in the datacontainer.  The <code>dbdata.yaml</code> file is used by other appstack containers to setup applications requiring a database.</p>
+<p>Example:</p>
+<pre><code>docker run --volumes-from data -it appstack-setup-mysql
+</code></pre>
+<p>...where "data" is the name chosen for the data container.</p>
 <h3 id="appstack-mysql"><a name="appstack-mysql">Appstack-MySQL</a></h3>
-<p><a href="https://github.com/DockerDemos/appstack-mysql">https://github.com/DockerDemos/appstack-mysql</a></p>
+<p>The Appstack-MySQL images is a simple MariaDB database server inside a Docker container.  It requires only that the Appstack-Setup-MySQL container is run before starting for the first time.  After that, the Appstack-MySQL image can start the database container again in the future without the extra initializations step.<br />
+<strong>Github Repo:</strong> <a href="https://github.com/DockerDemos/appstack-mysql">https://github.com/DockerDemos/appstack-mysql</a></p>
+<p><strong>Issue Tracker:</strong> <a href="https://github.com/DockerDemos/appstack-mysql/issues">https://github.com/DockerDemos/appstack-mysql/issues</a></p>
+<p>Example:</p>
+<pre><code>docker run --volumes-from data --name db -d appstack-mysql
+</code></pre>
+<p>...where "data" is the name chosen for the data container, and "db" is the name to be assigned to the database container.</p>
 <h3 id="appstack-phpfpm"><a name="appstack-phpfpm">Appstack-PHPFPM</a></h3>
 <p><a href="https://github.com/DockerDemos/appstack-phpfpm">https://github.com/DockerDemos/appstack-phpfpm</a></p>
 <h3 id="appstack-apache"><a name="appstack-apache">Appstack-Apache</a></h3>
