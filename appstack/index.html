@@ -141,10 +141,10 @@
 </code></pre>
 <h3 id="appstack-setup-mysql"><a name="appstack-setup-mysql">Appstack-Setup-MySQL</a></h3>
 <p>The Appstack-Setup-MySQL image is a single-use configuration image used to initialize a MariaDB database before an Appstack-MySQL container is run.  This image is designed to run only once per stack, and should be run after the Data container has started, and before the MySQL container is started.</p>
-<p><strong>Github Repo:</strong> <a href="https://github.com/DockerDemos/appstack-setup-mysql">https://github.com/DockerDemos/appstack-setup-mysql</a>
-<strong>Issue Tracker:</strong> <a href="https://github.com/DockerDemos/appstack-setup-mysql/issues">https://github.com/DockerDemos/appstack-setup-mysql/issues</a></p>
+<p><strong>Github Repo:</strong> <a href="https://github.com/DockerDemos/appstack-setup-mysql">https://github.com/DockerDemos/appstack-setup-mysql</a></p>
+<p><strong>Issue Tracker:</strong> <a href="https://github.com/DockerDemos/appstack-setup-mysql/issues">https://github.com/DockerDemos/appstack-setup-mysql/issues</a></p>
 <p>The Appstack-Setup-MySQL image requires only the <code>--volumes-from &lt;data container name&gt;</code> argument to be passed when run.  It does not need anything else to function.</p>
-<p>When run, it will run the <code>mysql_install_db</code> command to initialize the MariaDB database.  It will set the root password, create a backup user and password, and create a randomly-named database.  It will then store this information in <code>/root/.secret/dbdata.yaml</code> in the datacontainer.  The dbdata.yaml file is used by other appstack containers to setup applications requiring a database.</p>
+<p>When run, it will run the <code>mysql_install_db</code> command to initialize the MariaDB database.  It will set the root password, create a backup user and password, and create a randomly-named database.  It will then store this information in <code>/root/.secret/dbdata.yaml</code> in the datacontainer.  The <code>dbdata.yaml</code> file is used by other appstack containers to setup applications requiring a database.</p>
 <h3 id="appstack-mysql"><a name="appstack-mysql">Appstack-MySQL</a></h3>
 <p><a href="https://github.com/DockerDemos/appstack-mysql">https://github.com/DockerDemos/appstack-mysql</a></p>
 <h3 id="appstack-phpfpm"><a name="appstack-phpfpm">Appstack-PHPFPM</a></h3>
