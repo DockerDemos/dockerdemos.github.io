@@ -102,7 +102,36 @@
 </div>
           <div role="main">
             <div class="section">
-              
+              <h1 id="minecraft-server">Minecraft Server</h1>
+<p>Minecraft Server is an all-in-one Docker images that allows you to run a <a href="https://minecraft.net/download">Minecraft Server</a> inside a Docker container.</p>
+<p><strong>Github Repo:</strong> <a href="https://github.com/DockerDemos/MinecraftServer">https://github.com/DockerDemos/MinecraftServer</a></p>
+<p><strong>Issue Tracker:</strong> <a href="https://github.com/DockerDemos/MinecraftServer/issues">https://github.com/DockerDemos/MinecraftServer/issues</a></p>
+<h2 id="building-the-image">Building the Image</h2>
+<ol>
+<li><code>git clone https://github.com/DockerDemos/MinecraftServer.git</code></li>
+<li><code>cd MinecraftServer</code></li>
+<li><code>sudo docker build -t minecraft .</code>  - Note the period on the end</li>
+</ol>
+<h2 id="running-the-container">Running the Container</h2>
+<p><code>sudo docker run -p 25565:25565 -d minecraft</code></p>
+<p>Then, open your Minecraft client and connect to "localhost" or "127.0.0.1" to start playing.</p>
+<p>To improve startup speed, this image will not update with the latest version of the Minecraft software automatically once the initial image is built.  When a new update is released, run the <code>docker build</code> command from above to get the newest version.</p>
+<h2 id="making-the-server-publicly-available">Making the Server Publicly Available</h2>
+<p>The <code>docker run</code> command above will run the Docker container with your new Minecraft server in a manner that is ready to accept connections from the public.  Just make sure your host's firewall is set to accept incoming connection on port 25565, and your router is configured to pass traffic on port 25565 back to the host running your Docker container.</p>
+<p><em>Note:</em> Your browser must support HTML5 Websockers.  Check if your browser supports websockets: <a href="http://caniuse.com/#search=web%20sockets">http://caniuse.com/#search=web%20sockets</a></p>
+<h2 id="acknowledgements">Acknowledgements</h2>
+<p>Thanks to:</p>
+<ul>
+<li>
+<p>The community at <a href="http://msmhq.com/">Minecraft Server Manager</a> for developing a full-featured init script for Minecraft servers.</p>
+</li>
+<li>
+<p>Barnaby Gray for the suggestion to use openjdk-7-jre-headless - gleaned from <a href="https://github.com/barnybug/dockerfiles/blob/master/openjdk-7-jre/Dockerfile">https://github.com/barnybug/dockerfiles/blob/master/openjdk-7-jre/Dockerfile</a></p>
+</li>
+</ul>
+<h2 id="copyright">Copyright</h2>
+<p>This Minecraft Server Docker image is Copyright (C) 2014-2015 Chris Collins and released under the GNU General Public License, version 3.</p>
+
             </div>
           </div>
           <footer>
