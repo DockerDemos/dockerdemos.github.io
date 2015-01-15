@@ -144,13 +144,13 @@
 <p><strong>Github Repo:</strong> <a href="https://github.com/DockerDemos/appstack-setup-mysql">https://github.com/DockerDemos/appstack-setup-mysql</a></p>
 <p><strong>Issue Tracker:</strong> <a href="https://github.com/DockerDemos/appstack-setup-mysql/issues">https://github.com/DockerDemos/appstack-setup-mysql/issues</a></p>
 <p>The Appstack-Setup-MySQL image requires only the <code>--volumes-from &lt;data container name&gt;</code> argument to be passed when run.  It does not need anything else to function.</p>
-<p>When run, it will run the <code>mysql_install_db</code> command to initialize the MariaDB database.  It will set the root password, create a backup user and password, and create a randomly-named database.  It will then store this information in <code>/root/.secret/dbdata.yaml</code> in the datacontainer.  The <code>dbdata.yaml</code> file is used by other appstack containers to setup applications requiring a database.</p>
+<p>When run, it will run the <code>mysql_install_db</code> command to initialize the MariaDB database.  It will set the root password, create a backup user and password, and create a randomly-named database.  It will then store this information in <code>/root/.secret/dbdata.yaml</code> in the data container.  The <code>dbdata.yaml</code> file is used by other appstack containers to setup applications requiring a database.</p>
 <p>Example:</p>
 <pre><code>docker run --volumes-from data -it appstack-setup-mysql
 </code></pre>
 <p>...where "data" is the name chosen for the data container.</p>
 <h3 id="appstack-mysql"><a name="appstack-mysql">Appstack-MySQL</a></h3>
-<p>The Appstack-MySQL images is a simple MariaDB database server inside a Docker container.  It requires only that the Appstack-Setup-MySQL container is run before starting for the first time.  After that, the Appstack-MySQL image can start the database container again in the future without the extra initializations step.<br />
+<p>The Appstack-MySQL images is a simple MariaDB database server inside a Docker container.  It requires only that the Appstack-Setup-MySQL container is run before starting for the first time.  After that, the Appstack-MySQL image can start the database container again in the future without the extra initializations step.
 <strong>Github Repo:</strong> <a href="https://github.com/DockerDemos/appstack-mysql">https://github.com/DockerDemos/appstack-mysql</a></p>
 <p><strong>Issue Tracker:</strong> <a href="https://github.com/DockerDemos/appstack-mysql/issues">https://github.com/DockerDemos/appstack-mysql/issues</a></p>
 <p>Example:</p>
@@ -158,9 +158,38 @@
 </code></pre>
 <p>...where "data" is the name chosen for the data container, and "db" is the name to be assigned to the database container.</p>
 <h3 id="appstack-phpfpm"><a name="appstack-phpfpm">Appstack-PHPFPM</a></h3>
-<p><a href="https://github.com/DockerDemos/appstack-phpfpm">https://github.com/DockerDemos/appstack-phpfpm</a></p>
+<p>The Appstack-PHPFPM image runs a PHP-FPM server and is used for any application stacks that require PHP processing (Basic LAMP, WordPress, etc).</p>
+<p><strong>Github Repo:</strong> <a href="https://github.com/DockerDemos/appstack-phpfpm">https://github.com/DockerDemos/appstack-phpfpm</a></p>
+<p><strong>Issue Tracker:</strong> <a href="https://github.com/DockerDemos/appstack-phpfpm/issues">https://github.com/DockerDemos/appstack-phpfpm/issues</a></p>
+<p>The Appstack-PHPFPM image needs a few things to be useful:</p>
+<ul>
+<li>The code you wish to run mounted in /var/www/html (usually with <code>--volumes-from</code> a data container)</li>
+<li>Linked to the database container with the alias <code>db</code></li>
+<li>Optionally, an environment variable for <code>SMTPSERVER</code>, to enable email support</li>
+<li>Optionally, an environment variable for <code>DOMAIN</code>.</li>
+</ul>
+<p>Specifying an SMTP server in the <code>SMTPSERVER</code> environment variable will enable outgoing email support for PHP (using SSMTP for sendmail).  If you do not supply a <code>DOMAIN</code> environment variable, the container will try to parse the third-level domain from <code>SMTPSERVER</code>.</p>
+<p>Example:</p>
+<pre><code>docker run --volumes-from data --name fpm --link db:db  -d appstack-phpfpm
+</code></pre>
+<p>...where "data" is the name chosen for the data container,"db" is the name assigned to the database container, and "fpm" is the name to be assigned to the database container.</p>
 <h3 id="appstack-apache"><a name="appstack-apache">Appstack-Apache</a></h3>
-<p><a href="https://github.com/DockerDemos/appstack-apache">https://github.com/DockerDemos/appstack-apache</a></p>
+<p>The Appstack-Apache image is a frontend for PHP-FPM.  Mod_Fastcgi is built into the image, and it's pre-configured to connect to a PHP-FPM container.  Currently, this is the only working Apache image, but other images are in development now for Python WSGI, Ruby on Rails and, as an alternative to Apache, Nginx.</p>
+<p><strong>Github Repo:</strong> <a href="https://github.com/DockerDemos/appstack-apache">https://github.com/DockerDemos/appstack-apache</a></p>
+<p><strong>Issue Tracker:</strong> <a href="https://github.com/DockerDemos/appstack-apache/issues">https://github.com/DockerDemos/appstack-apache/issues</a></p>
+<p>The Appstack-Apache images is currently the most complicated to run.  It requires several things:</p>
+<ul>
+<li>A <code>/conf</code> directory that includes an SSL key and certificates (<strong>REQUIRED</strong>, but may be self-signed).</li>
+<li>The SSL key and cert named <code>localhost.key</code> and <code>localhost.crt</code>, respectively</li>
+<li>An optional <code>ca-cert.crt</code> that includes your certificate authoritie's Intermediater cert bundle.</li>
+<li>The files to be served in /var/www/html</li>
+<li>Port 80 and port 443 mapped to ports on your host</li>
+<li>An <code>SITENAME</code> environment variable with the domain for your website.</li>
+</ul>
+<p>Both <code>/conf</code> and <code>/var/www/html</code> are most easliy provided to the Appstack-Apache container by mapping <code>--volumes-from</code> a data container.</p>
+<p>Example:</p>
+<pre><code>docker run --volumes-from data --link fpm:fpm --name web -p 80:80 -p 443:443 -e 'SITENAME=your.site.name' -d appstack-apache
+</code></pre>
 <h3 id="appstack-wpcli"><a name="appstack-wpcli">Appstack-WPCLI</a></h3>
 <p><a href="https://github.com/DockerDemos/appstack-wpcli">https://github.com/DockerDemos/appstack-wpcli</a></p>
 <h3 id="appstack-setup-drupal"><a name="appstack-setup-drupal">Appstack-Setup-Drupal</a></h3>
