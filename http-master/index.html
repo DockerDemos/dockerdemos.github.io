@@ -121,7 +121,7 @@
 </ol>
 <h2 id="running-the-container">Running the Container</h2>
 <p>The http-master container requires a YAML config file named /etc/http-master/http-master.conf.  The easiest way to do this is to mount a volume from you host as the /etc/http-master directory inside the container.</p>
-<p><code>sudo docker run -p 80:80 -p 443:443 -v &lt;path to your http-master directory&gt;:/etc/http-master/http-master.conf -d httpmaster</code></p>
+<p><code>sudo docker run -p 80:80 -p 443:443 -v &lt;path to your http-master directory&gt;:/etc/http-master -d httpmaster</code></p>
 <p><em>Note:</em> Information on how to configure http-master using the http-master.conf file can be found here: <a href="https://www.npmjs.com/package/http-master">https://www.npmjs.com/package/http-master</a></p>
 <h2 id="acknowledgements">Acknowledgements</h2>
 <ul>
