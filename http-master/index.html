@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Minecraft Server - DockerDemos</title>
+  <title>http-master - DockerDemos</title>
   
 
   
@@ -49,8 +49,8 @@
 
     
         
-            <li class="toctree-l1 ">
-                <a class="" href="../http-master">http-master</a>
+            <li class="toctree-l1 current">
+                <a class="current" href=".">http-master</a>
             </li>
         
 
@@ -63,8 +63,8 @@
 
     
         
-            <li class="toctree-l1 current">
-                <a class="current" href=".">Minecraft Server</a>
+            <li class="toctree-l1 ">
+                <a class="" href="../minecraftserver">Minecraft Server</a>
             </li>
         
 
@@ -96,7 +96,7 @@
           <div role="navigation" aria-label="breadcrumbs navigation">
   <ul class="wy-breadcrumbs">
     <li><a href="..">Docs</a> &raquo;</li>
-    <li>Minecraft Server</li>
+    <li>http-master</li>
       <li class="wy-breadcrumbs-aside">
         
           
@@ -109,34 +109,26 @@
 </div>
           <div role="main">
             <div class="section">
-              <h1 id="minecraft-server">Minecraft Server</h1>
-<p>Minecraft Server is an all-in-one Docker images that allows you to run a <a href="https://minecraft.net/download">Minecraft Server</a> inside a Docker container.</p>
-<p><strong>Github Repo:</strong> <a href="https://github.com/DockerDemos/MinecraftServer">https://github.com/DockerDemos/MinecraftServer</a></p>
-<p><strong>Issue Tracker:</strong> <a href="https://github.com/DockerDemos/MinecraftServer/issues">https://github.com/DockerDemos/MinecraftServer/issues</a></p>
+              <h1 id="http-master">http-master</h1>
+<p>This is a Docker images that allows you to run <a href="https://www.npmjs.com/package/http-master">http-master</a> inside a Docker container, to make deploying a proxy server quick and simple.  It is especially useful as a proxy for other Docker containers on the same host!</p>
+<p><strong>Github Repo:</strong> <a href="https://github.com/DockerDemos/http-master">https://github.com/DockerDemos/http-master</a></p>
+<p><strong>Issue Tracker:</strong> <a href="https://github.com/DockerDemos/http-master/issues">https://github.com/DockerDemos/http-master/issues</a></p>
 <h2 id="building-the-image">Building the Image</h2>
 <ol>
-<li><code>git clone https://github.com/DockerDemos/MinecraftServer.git</code></li>
-<li><code>cd MinecraftServer</code></li>
-<li><code>sudo docker build -t minecraft .</code>  - Note the period on the end</li>
+<li><code>git clone https://github.com/DockerDemos/http-master.git</code></li>
+<li><code>cd http-master</code></li>
+<li><code>sudo docker build -t httpmaster .</code>   &lt;-- Note the period on the end</li>
 </ol>
 <h2 id="running-the-container">Running the Container</h2>
-<p><code>sudo docker run -p 25565:25565 -d minecraft</code></p>
-<p>Then, open your Minecraft client and connect to "localhost" or "127.0.0.1" to start playing.</p>
-<p>To improve startup speed, this image will not update with the latest version of the Minecraft software automatically once the initial image is built.  When a new update is released, run the <code>docker build</code> command from above to get the newest version.</p>
-<h2 id="making-the-server-publicly-available">Making the Server Publicly Available</h2>
-<p>The <code>docker run</code> command above will run the Docker container with your new Minecraft server in a manner that is ready to accept connections from the public.  Just make sure your host's firewall is set to accept incoming connection on port 25565, and your router is configured to pass traffic on port 25565 back to the host running your Docker container.</p>
+<p>The http-master container requires a YAML config file named /etc/http-master/http-master.conf.  The easiest way to do this is to mount a volume from you host as the /etc/http-master directory inside the container.</p>
+<p><code>sudo docker run -p 80:80 -p 443:443 -v &lt;path to your http-master directory&gt;:/etc/http-master/http-master.conf -d httpmaster</code></p>
+<p><em>Note:</em> Information on how to configure http-master using the http-master.conf file can be found here: <a href="https://www.npmjs.com/package/http-master">https://www.npmjs.com/package/http-master</a></p>
 <h2 id="acknowledgements">Acknowledgements</h2>
-<p>Thanks to:</p>
 <ul>
-<li>
-<p>The community at <a href="http://msmhq.com/">Minecraft Server Manager</a> for developing a full-featured init script for Minecraft servers.</p>
-</li>
-<li>
-<p>Barnaby Gray for the suggestion to use openjdk-7-jre-headless - gleaned from <a href="https://github.com/barnybug/dockerfiles/blob/master/openjdk-7-jre/Dockerfile">https://github.com/barnybug/dockerfiles/blob/master/openjdk-7-jre/Dockerfile</a></p>
-</li>
+<li>Thanks to the CodeCharmLtd folks (https://github.com/CodeCharmLtd) for developing and supporting http-master!</li>
 </ul>
 <h2 id="copyright">Copyright</h2>
-<p>This Minecraft Server Docker image is Copyright (C) 2014-2015 Chris Collins and released under the GNU General Public License, version 3.</p>
+<p>This http-master Docker image is Copyright (C) 2014-2015 Chris Collins and released under the GNU General Public License, version 3.</p>
 
             </div>
           </div>
@@ -144,10 +136,10 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="../fullscreenmario" class="btn btn-neutral float-right" title="Fullscreen Mario"/>Next <span class="icon icon-circle-arrow-right"></span></a>
+        <a href="../dwarffortressserver" class="btn btn-neutral float-right" title="Dwarf Fortress Server"/>Next <span class="icon icon-circle-arrow-right"></span></a>
       
       
-        <a href="../dwarffortressserver" class="btn btn-neutral" title="Dwarf Fortress Server"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../appstack" class="btn btn-neutral" title="Appstack"><span class="icon icon-circle-arrow-left"></span> Previous</a>
       
     </div>
   
@@ -175,8 +167,8 @@
         
             <a class="icon icon-github" style="float: left; color: #fcfcfc"> GitHub</a>
         
-      <span><a href="../dwarffortressserver" style="color: #fcfcfc;">&laquo; Previous</a></span>
-      <span style="margin-left: 15px"><a href="../fullscreenmario" style="color: #fcfcfc">Next &raquo;</a></span>
+      <span><a href="../appstack" style="color: #fcfcfc;">&laquo; Previous</a></span>
+      <span style="margin-left: 15px"><a href="../dwarffortressserver" style="color: #fcfcfc">Next &raquo;</a></span>
     </span>
 </div>
 </body>
