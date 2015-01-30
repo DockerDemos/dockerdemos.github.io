@@ -55,7 +55,17 @@
                             
                                 <li><a class="toctree-l3" href="#appstack-data">Appstack-Data</a></li>
                             
-                                <li><a class="toctree-l3" href="#examples">Examples ###</a></li>
+                                <li><a class="toctree-l3" href="#appstack-setup-mysql">Appstack-Setup-MySQL</a></li>
+                            
+                                <li><a class="toctree-l3" href="#appstack-mysql">Appstack-MySQL</a></li>
+                            
+                                <li><a class="toctree-l3" href="#appstack-apache">Appstack-Apache</a></li>
+                            
+                                <li><a class="toctree-l3" href="#appstack-drush">Appstack-Drush</a></li>
+                            
+                                <li><a class="toctree-l3" href="#appstack-backup">Appstack-Backup</a></li>
+                            
+                                <li><a class="toctree-l3" href="#appstack-setup-drupal">Appstack-Setup-Drupal</a></li>
                             
                         
                         </ul>
@@ -168,7 +178,8 @@
 <p>Example of mounting host volumes inside the data container:</p>
 <pre><code>docker run --name data -v /srv/html:/var/www/html -v /srv/mysql:/var/lib/mysql -v /srv/log:/var/log -v /srv/backup:/var/backup -v /srv/conf:/conf -it appstack-data
 </code></pre>
-<h2 id="appstack-setup-mysql"><a name="appstack-setup-mysql">Appstack-Setup-MySQL</a></h2>
+<h2 id="appstack-setup-mysql">Appstack-Setup-MySQL</h2>
+<p><a name="appstack-setup-mysql"></a></p>
 <p>The Appstack-Setup-MySQL image is a single-use configuration image used to initialize a MariaDB database before an Appstack-MySQL container is run.  This image is designed to run only once per stack, and should be run after the Data container has started, and before the MySQL container is started.</p>
 <p><strong>Github Repo:</strong> <a href="https://github.com/DockerDemos/appstack-setup-mysql">https://github.com/DockerDemos/appstack-setup-mysql</a></p>
 <p><strong>Issue Tracker:</strong> <a href="https://github.com/DockerDemos/appstack-setup-mysql/issues">https://github.com/DockerDemos/appstack-setup-mysql/issues</a></p>
@@ -178,7 +189,8 @@
 <pre><code>docker run --volumes-from data -it appstack-setup-mysql
 </code></pre>
 <p>...where "data" is the name chosen for the data container.</p>
-<h2 id="appstack-mysql"><a name="appstack-mysql">Appstack-MySQL</a></h2>
+<h2 id="appstack-mysql">Appstack-MySQL</h2>
+<p><a name="appstack-mysql"></a></p>
 <p>The Appstack-MySQL images is a simple MariaDB database server inside a Docker container.  It requires only that the Appstack-Setup-MySQL container is run before starting for the first time.  After that, the Appstack-MySQL image can start the database container again in the future without the extra initializations step.
 <strong>Github Repo:</strong> <a href="https://github.com/DockerDemos/appstack-mysql">https://github.com/DockerDemos/appstack-mysql</a></p>
 <p><strong>Issue Tracker:</strong> <a href="https://github.com/DockerDemos/appstack-mysql/issues">https://github.com/DockerDemos/appstack-mysql/issues</a></p>
@@ -202,7 +214,8 @@
 <pre><code>docker run --volumes-from data --name fpm --link db:db  -d appstack-phpfpm
 </code></pre>
 <p>...where "data" is the name chosen for the data container,"db" is the name assigned to the database container, and "fpm" is the name to be assigned to the database container.</p>
-<h2 id="appstack-apache"><a name="appstack-apache">Appstack-Apache</a></h2>
+<h2 id="appstack-apache">Appstack-Apache</h2>
+<p><a name="appstack-apache"></a></p>
 <p>The Appstack-Apache image is a front end for PHP-FPM.  Mod_FASTCGI is built into the image, and it's pre-configured to connect to a PHP-FPM container.  Currently, this is the only working Apache image, but other images are in development now for Python WSGI, Ruby on Rails and, as an alternative to Apache, Nginx.</p>
 <p><strong>Github Repo:</strong> <a href="https://github.com/DockerDemos/appstack-apache">https://github.com/DockerDemos/appstack-apache</a></p>
 <p><strong>Issue Tracker:</strong> <a href="https://github.com/DockerDemos/appstack-apache/issues">https://github.com/DockerDemos/appstack-apache/issues</a></p>
@@ -223,7 +236,7 @@
 <p>The Appstack-WPCLI image is designed to accept all the regular <a href="http://wp-cli.org/commands">WP-CLI commands</a>, as well as run a few helper scripts to assist in automating WordPress managemtn with other Appstack containers.</p>
 <p><strong>Github Repo:</strong> <a href="https://github.com/DockerDemos/appstack-wpcli">https://github.com/DockerDemos/appstack-wpcli</a></p>
 <p><strong>Issue Tracker:</strong> <a href="https://github.com/DockerDemos/appstack-wpcli/issues">https://github.com/DockerDemos/appstack-wpcli/issues</a></p>
-<h3 id="examples">Examples ###</h3>
+<p><strong>Examples</strong></p>
 <p><em>Download WordPress from WordPress.org:</em></p>
 <pre><code>docker run --volumes-from data -w /var/www/html -it appstack-wpcli /scripts/core-download.sh
 </code></pre>
@@ -242,13 +255,16 @@
 <pre><code>docker run --link db:db --volumes-from data -w /var/www/html -it appstack-wpcli wp db query "select * from wp_options where option_id=1 \G"
 </code></pre>
 <p>This lets you run a query (including UPDATE) on the WP database using the info in the wp-config.php file. This way you could potentially pre-configure any specific plugin settings that aren't setup by default - such as the Shibboleth stuff, for instance.</p>
-<h2 id="appstack-drush"><a name="appstack-wpcli">Appstack-drush</a></h2>
+<h2 id="appstack-drush">Appstack-Drush</h2>
+<p><a name="appstack-drush"></a></p>
 <p><a href="https://github.com/DockerDemos/appstack-drush">https://github.com/DockerDemos/appstack-drush</a></p>
-<h2 id="appstack-setup-drupal"><a name="appstack-setup-drupal">Appstack-Setup-Drupal</a></h2>
-<p><strong>Appstack-Setup-Drupal is deprecated in favor of appstack-drush, and will no longer be maintained.</strong>
-<a href="https://github.com/DockerDemos/appstack-setup-drupal">https://github.com/DockerDemos/appstack-setup-drupal</a></p>
-<h2 id="appstack-backup"><a name="appstack-backup">Appstack-backup</a></h2>
+<h2 id="appstack-backup">Appstack-Backup</h2>
+<p><a name="appstack-backup"></a></p>
 <p><a href="https://github.com/DockerDemos/appstack-backup">https://github.com/DockerDemos/appstack-backup</a></p>
+<h2 id="appstack-setup-drupal">Appstack-Setup-Drupal</h2>
+<p><a name="appstack-setup-drupal"></a></p>
+<p><strong>Appstack-Setup-Drupal is deprecated in favor of appstack-drush, and will no longer be maintained.</strong></p>
+<p><a href="https://github.com/DockerDemos/appstack-setup-drupal">https://github.com/DockerDemos/appstack-setup-drupal</a></p>
 
             </div>
           </div>
