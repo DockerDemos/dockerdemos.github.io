@@ -203,7 +203,28 @@
 <pre><code>docker run --volumes-from data --link fpm:fpm --name web -p 80:80 -p 443:443 -e 'SITENAME=your.site.name' -d appstack-apache
 </code></pre>
 <h3 id="appstack-wpcli"><a name="appstack-wpcli">Appstack-WPCLI</a></h3>
-<p><a href="https://github.com/DockerDemos/appstack-wpcli">https://github.com/DockerDemos/appstack-wpcli</a></p>
+<p>The Appstack-WPCLI image is designed to accept all the regular <a href="http://wp-cli.org/commands">WP-CLI commands</a>, as well as run a few helper scripts to assist in automating WordPress managemtn with other Appstack containers.</p>
+<p><strong>Github Repo:</strong> <a href="https://github.com/DockerDemos/appstack-wpcli">https://github.com/DockerDemos/appstack-wpcli</a></p>
+<p><strong>Issue Tracker:</strong> <a href="https://github.com/DockerDemos/appstack-wpcli/issues">https://github.com/DockerDemos/appstack-wpcli/issues</a></p>
+<h4 id="examples">Examples ####</h4>
+<p><em>Download WordPress from WordPress.org:</em></p>
+<pre><code>docker run --volumes-from data -w /var/www/html -it appstack-wpcli /scripts/core-download.sh
+</code></pre>
+<p><em>Setup the wp-config.php file:</em></p>
+<pre><code>docker run --volumes-from data -w /var/www/html -it appstack-wpcli /scripts/core-config.sh
+</code></pre>
+<p>This reads the DB config information from dbdata.yaml, setup by the appstack-setup-mysql container.</p>
+<p><em>Finalize the WP install:</em></p>
+<pre><code>docker run --link db:db --volumes-from data -w /var/www/html -e SITENAME="https://${SITENAME}" -e TITLE=hastur -e ADMIN=joebob -e ADMINPASS=foobarbaz -e ADMINEMAIL=joe.bob@example.org -it appstack-wpcli /scripts/core-install.sh
+</code></pre>
+<p><em>Example Plugin install:</em></p>
+<pre><code>docker run --link db:db --volumes-from data -w /var/www/html -it appstack-wpcli wp plugin install shibboleth --activate
+</code></pre>
+<p>This installs and activates the "Shibboleth" plugin from WordPress.org.  However, it doesn't configure the plugin, just turns it on.  That leads to the next useful command...</p>
+<p><em>Arbitrary SQL Queries:</em></p>
+<pre><code>docker run --link db:db --volumes-from data -w /var/www/html -it appstack-wpcli wp db query "select * from wp_options where option_id=1 \G"
+</code></pre>
+<p>This lets you run a query (including UPDATE) on the WP database using the info in the wp-config.php file. This way you could potentially pre-configure any specific plugin settings that aren't setup by default - such as the Shibboleth stuff, for instance.</p>
 <h3 id="appstack-drush"><a name="appstack-wpcli">Appstack-drush</a></h3>
 <p><a href="https://github.com/DockerDemos/appstack-drush">https://github.com/DockerDemos/appstack-drush</a></p>
 <h3 id="appstack-setup-drupal"><a name="appstack-setup-drupal">Appstack-Setup-Drupal</a></h3>
