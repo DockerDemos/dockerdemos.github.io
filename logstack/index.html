@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Fullscreen Mario - DockerDemos</title>
+  <title>Logstack: the Logstash Stack - DockerDemos</title>
   
 
   
@@ -55,8 +55,21 @@
         
         <span>Logstack</span>
             
-                <li class="toctree-l1 ">
-                    <a class="" href="../logstack">Logstack: the Logstash Stack</a>
+                <li class="toctree-l1 current">
+                    <a class="current" href=".">Logstack: the Logstash Stack</a>
+                    
+                        <ul>
+                        
+                            <li class="toctree-l2"><a href="#containerized-logstash-service">Containerized Logstash Service</a></li>
+                            
+                                <li><a class="toctree-l3" href="#logstash-image-reference">Logstash Image Reference</a></li>
+                            
+                                <li><a class="toctree-l3" href="#logstashforwarder">LogstashForwarder</a></li>
+                            
+                                <li><a class="toctree-l3" href="#elasticsearch">ElasticSearch</a></li>
+                            
+                        
+                        </ul>
                     
                 </li>
             
@@ -87,12 +100,8 @@
                     
                 </li>
             
-                <li class="toctree-l1 current">
-                    <a class="current" href=".">Fullscreen Mario</a>
-                    
-                        <ul>
-                        
-                        </ul>
+                <li class="toctree-l1 ">
+                    <a class="" href="../fullscreenmario">Fullscreen Mario</a>
                     
                 </li>
             
@@ -119,7 +128,7 @@
           <div role="navigation" aria-label="breadcrumbs navigation">
   <ul class="wy-breadcrumbs">
     <li><a href="..">Docs</a> &raquo;</li>
-    <li>Fullscreen Mario</li>
+    <li>Logstack: the Logstash Stack</li>
       <li class="wy-breadcrumbs-aside">
         
           
@@ -132,15 +141,37 @@
 </div>
           <div role="main">
             <div class="section">
-              
+              <h1 id="containerized-logstash-service">Containerized Logstash Service</h1>
+<p>The DockerDemos Logstash projects are a collection of Docker images that run all the services needed for a full Logstash service inside Docker containers.</p>
+<p>With the Logstash images, you can build an entire Logstash service quickly and easily in seconds.  Building in Docker containers adds ease of management and flexibility, and makes the deployment process quick and easy.  You can even use the containerized Logstash Forwarder to collect events from services running in other Docker containers, or services running on a regular host, too!</p>
+<h2 id="logstash-image-reference">Logstash Image Reference</h2>
+<ul>
+<li><a href="#logstashforwarder">LogstashForwarder</a>: The Logstash client, in a Docker container, to monitor all the things.</li>
+<li><a href="#elasticsearch">ElasticSearch</a>: The database in which events received from the forwarders are stored.</li>
+<li><a href="#kibana">Kibana</a>: Visualization and interaction with your Elasticsearch data.</li>
+</ul>
+<h2 id="logstashforwarder">LogstashForwarder</h2>
+<p><a name="logstashforwarder"></a></p>
+<p><strong>Github Repo:</strong> <a href="https://github.com/DockerDemos/LogstashForwarder">https://github.com/DockerDemos/LogstashForwarder</a></p>
+<p><strong>Issue Tracker:</strong> <a href="https://github.com/DockerDemos/LogstashForwarder/issues">https://github.com/DockerDemos/LogstashForwarder/issues</a></p>
+<h2 id="elasticsearch">ElasticSearch</h2>
+<p><a name="elasticsearch"></a></p>
+<p><strong>Github Repo:</strong> <a href="https://github.com/DockerDemos/ElasticSearch">https://github.com/DockerDemos/ElasticSearch</a></p>
+<p><strong>Issue Tracker:</strong> <a href="https://github.com/DockerDemos/ElasticSearch/issues">https://github.com/DockerDemos/ElasticSearch/issues</a></p>
+<p><a name="Kibana"></a></p>
+<p><strong>Github Repo:</strong> <a href="https://github.com/DockerDemos/Kibana">https://github.com/DockerDemos/Kibana</a></p>
+<p><strong>Issue Tracker:</strong> <a href="https://github.com/DockerDemos/Kibana/issues">https://github.com/DockerDemos/Kibana/issues</a></p>
+
             </div>
           </div>
           <footer>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
+        <a href="../http-master" class="btn btn-neutral float-right" title="http-master"/>Next <span class="icon icon-circle-arrow-right"></span></a>
       
-        <a href="../minecraftserver" class="btn btn-neutral" title="Minecraft Server"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+        <a href="../appstack" class="btn btn-neutral" title="Appstack Images"><span class="icon icon-circle-arrow-left"></span> Previous</a>
       
     </div>
   
@@ -168,8 +199,8 @@
         
             <a class="icon icon-github" style="float: left; color: #fcfcfc"> GitHub</a>
         
-      <span><a href="../minecraftserver" style="color: #fcfcfc;">&laquo; Previous</a></span>
-      <span style="margin-left: 15px"><a href="" style="color: #fcfcfc">Next &raquo;</a></span>
+      <span><a href="../appstack" style="color: #fcfcfc;">&laquo; Previous</a></span>
+      <span style="margin-left: 15px"><a href="../http-master" style="color: #fcfcfc">Next &raquo;</a></span>
     </span>
 </div>
 </body>
