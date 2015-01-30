@@ -51,17 +51,12 @@
                         
                             <li class="toctree-l2"><a href="#appstack">Appstack</a></li>
                             
-                                <li><a class="toctree-l3" href="#the-appstack-images">The Appstack Images</a></li>
-                            
                                 <li><a class="toctree-l3" href="#appstack-image-reference">Appstack Image Reference</a></li>
+                            
+                                <li><a class="toctree-l3" href="#examples">Examples ###</a></li>
                             
                         
                         </ul>
-                    
-                </li>
-            
-                <li class="toctree-l1 ">
-                    <a class="" href="../appstack-data">Appstack-Data</a>
                     
                 </li>
             
@@ -141,7 +136,7 @@
 </ol>
 <p>With Appstack images, you can build an entire WordPress service from zero to fully installed and ready to accept content, all inside Docker containers.  With a <a href="https://gist.github.com/clcollins/cfab1f63dc1aa927bf9f">handy script</a>, it can be done in seconds!</p>
 <p>Depending on the images used, you could have a full WordPress instance, or a Drupal site, or a basic LAMP stack, or in the near future, Ruby on Rails, Django, etc..  It just depends only on the chosen images and how they are linked.</p>
-<h2 id="the-appstack-images">The Appstack Images</h2>
+<h2 id="appstack-image-reference">Appstack Image Reference</h2>
 <ul>
 <li><a href="#appstack-data">appstack-data</a>: A data-only container image- the heart that ties all the Appstack containers together</li>
 <li><a href="#appstack-setup-mysql">appstack-setup-mysql</a>: A MariaDB pre-configuration container image that runs once to initialize a MariaDB server.</li>
@@ -153,8 +148,7 @@
 <li><a href="#appstack-setup-drupal">appstack-setup-drupal</a>: A Drupal container image for automating the install of a Drupal website  inside an Appstack container stack.</li>
 <li><a href="#appstack-backup">appstack-backup</a>: An container image for automating MariaDB database backups.</li>
 </ul>
-<h2 id="appstack-image-reference">Appstack Image Reference</h2>
-<h3 id="appstack-data"><a name="appstack-data">Appstack-Data</a></h3>
+<h2 id="appstack-data"><a name="appstack-data">Appstack-Data</a></h2>
 <p>The Appstack-data image is the heart of any group of linked Appstack images.  It allows you to share storage volumes among the linked containers easily, and to mount volumes from your host into the Appstack stack (eg. /var/lib/mysql, or /var/www/html - for persistence).</p>
 <p><strong>Github Repo:</strong> <a href="https://github.com/DockerDemos/appstack-data">https://github.com/DockerDemos/appstack-data</a></p>
 <p><strong>Issue Tracker:</strong> <a href="https://github.com/DockerDemos/appstack-data/issues">https://github.com/DockerDemos/appstack-data/issues</a></p>
@@ -171,7 +165,7 @@
 <p>Example of mounting host volumes inside the data container:</p>
 <pre><code>docker run --name data -v /srv/html:/var/www/html -v /srv/mysql:/var/lib/mysql -v /srv/log:/var/log -v /srv/backup:/var/backup -v /srv/conf:/conf -it appstack-data
 </code></pre>
-<h3 id="appstack-setup-mysql"><a name="appstack-setup-mysql">Appstack-Setup-MySQL</a></h3>
+<h2 id="appstack-setup-mysql"><a name="appstack-setup-mysql">Appstack-Setup-MySQL</a></h2>
 <p>The Appstack-Setup-MySQL image is a single-use configuration image used to initialize a MariaDB database before an Appstack-MySQL container is run.  This image is designed to run only once per stack, and should be run after the Data container has started, and before the MySQL container is started.</p>
 <p><strong>Github Repo:</strong> <a href="https://github.com/DockerDemos/appstack-setup-mysql">https://github.com/DockerDemos/appstack-setup-mysql</a></p>
 <p><strong>Issue Tracker:</strong> <a href="https://github.com/DockerDemos/appstack-setup-mysql/issues">https://github.com/DockerDemos/appstack-setup-mysql/issues</a></p>
@@ -181,7 +175,7 @@
 <pre><code>docker run --volumes-from data -it appstack-setup-mysql
 </code></pre>
 <p>...where "data" is the name chosen for the data container.</p>
-<h3 id="appstack-mysql"><a name="appstack-mysql">Appstack-MySQL</a></h3>
+<h2 id="appstack-mysql"><a name="appstack-mysql">Appstack-MySQL</a></h2>
 <p>The Appstack-MySQL images is a simple MariaDB database server inside a Docker container.  It requires only that the Appstack-Setup-MySQL container is run before starting for the first time.  After that, the Appstack-MySQL image can start the database container again in the future without the extra initializations step.
 <strong>Github Repo:</strong> <a href="https://github.com/DockerDemos/appstack-mysql">https://github.com/DockerDemos/appstack-mysql</a></p>
 <p><strong>Issue Tracker:</strong> <a href="https://github.com/DockerDemos/appstack-mysql/issues">https://github.com/DockerDemos/appstack-mysql/issues</a></p>
@@ -189,7 +183,7 @@
 <pre><code>docker run --volumes-from data --name db -d appstack-mysql
 </code></pre>
 <p>...where "data" is the name chosen for the data container, and "db" is the name to be assigned to the database container.</p>
-<h3 id="appstack-phpfpm"><a name="appstack-phpfpm">Appstack-PHPFPM</a></h3>
+<h2 id="appstack-phpfpm"><a name="appstack-phpfpm">Appstack-PHPFPM</a></h2>
 <p>The Appstack-PHPFPM image runs a PHP-FPM server and is used for any application stacks that require PHP processing (Basic LAMP, WordPress, etc).</p>
 <p><strong>Github Repo:</strong> <a href="https://github.com/DockerDemos/appstack-phpfpm">https://github.com/DockerDemos/appstack-phpfpm</a></p>
 <p><strong>Issue Tracker:</strong> <a href="https://github.com/DockerDemos/appstack-phpfpm/issues">https://github.com/DockerDemos/appstack-phpfpm/issues</a></p>
@@ -205,7 +199,7 @@
 <pre><code>docker run --volumes-from data --name fpm --link db:db  -d appstack-phpfpm
 </code></pre>
 <p>...where "data" is the name chosen for the data container,"db" is the name assigned to the database container, and "fpm" is the name to be assigned to the database container.</p>
-<h3 id="appstack-apache"><a name="appstack-apache">Appstack-Apache</a></h3>
+<h2 id="appstack-apache"><a name="appstack-apache">Appstack-Apache</a></h2>
 <p>The Appstack-Apache image is a front end for PHP-FPM.  Mod_FASTCGI is built into the image, and it's pre-configured to connect to a PHP-FPM container.  Currently, this is the only working Apache image, but other images are in development now for Python WSGI, Ruby on Rails and, as an alternative to Apache, Nginx.</p>
 <p><strong>Github Repo:</strong> <a href="https://github.com/DockerDemos/appstack-apache">https://github.com/DockerDemos/appstack-apache</a></p>
 <p><strong>Issue Tracker:</strong> <a href="https://github.com/DockerDemos/appstack-apache/issues">https://github.com/DockerDemos/appstack-apache/issues</a></p>
@@ -222,11 +216,11 @@
 <p>Example:</p>
 <pre><code>docker run --volumes-from data --link fpm:fpm --name web -p 80:80 -p 443:443 -e 'SITENAME=your.site.name' -d appstack-apache
 </code></pre>
-<h3 id="appstack-wpcli"><a name="appstack-wpcli">Appstack-WPCLI</a></h3>
+<h2 id="appstack-wpcli"><a name="appstack-wpcli">Appstack-WPCLI</a></h2>
 <p>The Appstack-WPCLI image is designed to accept all the regular <a href="http://wp-cli.org/commands">WP-CLI commands</a>, as well as run a few helper scripts to assist in automating WordPress managemtn with other Appstack containers.</p>
 <p><strong>Github Repo:</strong> <a href="https://github.com/DockerDemos/appstack-wpcli">https://github.com/DockerDemos/appstack-wpcli</a></p>
 <p><strong>Issue Tracker:</strong> <a href="https://github.com/DockerDemos/appstack-wpcli/issues">https://github.com/DockerDemos/appstack-wpcli/issues</a></p>
-<h4 id="examples">Examples ####</h4>
+<h3 id="examples">Examples ###</h3>
 <p><em>Download WordPress from WordPress.org:</em></p>
 <pre><code>docker run --volumes-from data -w /var/www/html -it appstack-wpcli /scripts/core-download.sh
 </code></pre>
@@ -245,12 +239,12 @@
 <pre><code>docker run --link db:db --volumes-from data -w /var/www/html -it appstack-wpcli wp db query "select * from wp_options where option_id=1 \G"
 </code></pre>
 <p>This lets you run a query (including UPDATE) on the WP database using the info in the wp-config.php file. This way you could potentially pre-configure any specific plugin settings that aren't setup by default - such as the Shibboleth stuff, for instance.</p>
-<h3 id="appstack-drush"><a name="appstack-wpcli">Appstack-drush</a></h3>
+<h2 id="appstack-drush"><a name="appstack-wpcli">Appstack-drush</a></h2>
 <p><a href="https://github.com/DockerDemos/appstack-drush">https://github.com/DockerDemos/appstack-drush</a></p>
-<h3 id="appstack-setup-drupal"><a name="appstack-setup-drupal">Appstack-Setup-Drupal</a></h3>
+<h2 id="appstack-setup-drupal"><a name="appstack-setup-drupal">Appstack-Setup-Drupal</a></h2>
 <p><strong>Appstack-Setup-Drupal is deprecated in favor of appstack-drush, and will no longer be maintained.</strong>
 <a href="https://github.com/DockerDemos/appstack-setup-drupal">https://github.com/DockerDemos/appstack-setup-drupal</a></p>
-<h3 id="appstack-backup"><a name="appstack-backup">Appstack-backup</a></h3>
+<h2 id="appstack-backup"><a name="appstack-backup">Appstack-backup</a></h2>
 <p><a href="https://github.com/DockerDemos/appstack-backup">https://github.com/DockerDemos/appstack-backup</a></p>
 
             </div>
@@ -259,7 +253,7 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="../appstack-data" class="btn btn-neutral float-right" title="Appstack-Data"/>Next <span class="icon icon-circle-arrow-right"></span></a>
+        <a href="../http-master" class="btn btn-neutral float-right" title="http-master"/>Next <span class="icon icon-circle-arrow-right"></span></a>
       
       
         <a href=".." class="btn btn-neutral" title="DockerDemos"><span class="icon icon-circle-arrow-left"></span> Previous</a>
@@ -291,7 +285,7 @@
             <a class="icon icon-github" style="float: left; color: #fcfcfc"> GitHub</a>
         
       <span><a href=".." style="color: #fcfcfc;">&laquo; Previous</a></span>
-      <span style="margin-left: 15px"><a href="../appstack-data" style="color: #fcfcfc">Next &raquo;</a></span>
+      <span style="margin-left: 15px"><a href="../http-master" style="color: #fcfcfc">Next &raquo;</a></span>
     </span>
 </div>
 </body>
