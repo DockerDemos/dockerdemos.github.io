@@ -115,7 +115,7 @@
 <ol>
 <li>Storage</li>
 <li>A database server</li>
-<li>A webserver</li>
+<li>A web server</li>
 <li>A PHP processor</li>
 <li>The WordPress code</li>
 </ol>
@@ -127,8 +127,9 @@
 <li><a href="#appstack-setup-mysql">appstack-setup-mysql</a>: A MariaDB pre-configuration container image that runs once to initialize a MariaDB server.</li>
 <li><a href="#appstack-mysql">appstack-mysql</a>: A MariaDB container image for running your database server.</li>
 <li><a href="#appstack-phpfpm">appstack-phpfpm</a>: A PHP FastCGI Process Manager container image</li>
-<li><a href="#appstack-apache">appstack-apache</a>: An Apache webserver container image; designed to offload PHP processing to the appstack-phpfpm containers.</li>
+<li><a href="#appstack-apache">appstack-apache</a>: An Apache web server container image; designed to offload PHP processing to the appstack-phpfpm containers.</li>
 <li><a href="#appstack-wpcli">appstack-wpcli</a>: A WP-CLI container image, for automating installation, upgrades and management of WordPress sites run in an Appstack container stack.</li>
+<li><a href="#appstack-drush">appstack-drush</a>: A Drush container image, for automating installation, upgrades and management of Drupal sites run in an Appstack container stack.</li>
 <li><a href="#appstack-setup-drupal">appstack-setup-drupal</a>: A Drupal container image for automating the install of a Drupal website  inside an Appstack container stack.</li>
 <li><a href="#appstack-backup">appstack-backup</a>: An container image for automating MariaDB database backups.</li>
 </ul>
@@ -185,26 +186,29 @@
 </code></pre>
 <p>...where "data" is the name chosen for the data container,"db" is the name assigned to the database container, and "fpm" is the name to be assigned to the database container.</p>
 <h3 id="appstack-apache"><a name="appstack-apache">Appstack-Apache</a></h3>
-<p>The Appstack-Apache image is a frontend for PHP-FPM.  Mod_Fastcgi is built into the image, and it's pre-configured to connect to a PHP-FPM container.  Currently, this is the only working Apache image, but other images are in development now for Python WSGI, Ruby on Rails and, as an alternative to Apache, Nginx.</p>
+<p>The Appstack-Apache image is a front end for PHP-FPM.  Mod_FASTCGI is built into the image, and it's pre-configured to connect to a PHP-FPM container.  Currently, this is the only working Apache image, but other images are in development now for Python WSGI, Ruby on Rails and, as an alternative to Apache, Nginx.</p>
 <p><strong>Github Repo:</strong> <a href="https://github.com/DockerDemos/appstack-apache">https://github.com/DockerDemos/appstack-apache</a></p>
 <p><strong>Issue Tracker:</strong> <a href="https://github.com/DockerDemos/appstack-apache/issues">https://github.com/DockerDemos/appstack-apache/issues</a></p>
 <p>The Appstack-Apache images is currently the most complicated to run.  It requires several things:</p>
 <ul>
 <li>A <code>/conf</code> directory that includes an SSL key and certificates (<strong>REQUIRED</strong>, but may be self-signed).</li>
 <li>The SSL key and cert named <code>localhost.key</code> and <code>localhost.crt</code>, respectively</li>
-<li>An optional <code>ca-cert.crt</code> that includes your certificate authoritie's Intermediater cert bundle.</li>
+<li>An optional <code>ca-cert.crt</code> that includes your certificate authority's intermediate cert bundle.</li>
 <li>The files to be served in /var/www/html</li>
 <li>Port 80 and port 443 mapped to ports on your host</li>
 <li>An <code>SITENAME</code> environment variable with the domain for your website.</li>
 </ul>
-<p>Both <code>/conf</code> and <code>/var/www/html</code> are most easliy provided to the Appstack-Apache container by mapping <code>--volumes-from</code> a data container.</p>
+<p>Both <code>/conf</code> and <code>/var/www/html</code> are most easily provided to the Appstack-Apache container by mapping <code>--volumes-from</code> a data container.</p>
 <p>Example:</p>
 <pre><code>docker run --volumes-from data --link fpm:fpm --name web -p 80:80 -p 443:443 -e 'SITENAME=your.site.name' -d appstack-apache
 </code></pre>
 <h3 id="appstack-wpcli"><a name="appstack-wpcli">Appstack-WPCLI</a></h3>
 <p><a href="https://github.com/DockerDemos/appstack-wpcli">https://github.com/DockerDemos/appstack-wpcli</a></p>
+<h3 id="appstack-drush"><a name="appstack-wpcli">Appstack-drush</a></h3>
+<p><a href="https://github.com/DockerDemos/appstack-drush">https://github.com/DockerDemos/appstack-drush</a></p>
 <h3 id="appstack-setup-drupal"><a name="appstack-setup-drupal">Appstack-Setup-Drupal</a></h3>
-<p><a href="https://github.com/DockerDemos/appstack-setup-drupal">https://github.com/DockerDemos/appstack-setup-drupal</a></p>
+<p><strong>Appstack-Setup-Drupal is deprecated in favor of appstack-drush, and will no longer be maintained.</strong>
+<a href="https://github.com/DockerDemos/appstack-setup-drupal">https://github.com/DockerDemos/appstack-setup-drupal</a></p>
 <h3 id="appstack-backup"><a name="appstack-backup">Appstack-backup</a></h3>
 <p><a href="https://github.com/DockerDemos/appstack-backup">https://github.com/DockerDemos/appstack-backup</a></p>
 
