@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Fullscreen Mario - DockerDemos</title>
+  <title>Appstack-Data - DockerDemos</title>
   
 
   
@@ -49,8 +49,15 @@
                     
                 </li>
             
-                <li class="toctree-l1 ">
-                    <a class="" href="../appstack-data">Appstack-Data</a>
+                <li class="toctree-l1 current">
+                    <a class="current" href=".">Appstack-Data</a>
+                    
+                        <ul>
+                        
+                            <li class="toctree-l2"><a href="#appstack-data">Appstack-Data</a></li>
+                            
+                        
+                        </ul>
                     
                 </li>
             
@@ -79,8 +86,8 @@
 
     
         
-            <li class="toctree-l1 current">
-                <a class="current" href=".">Fullscreen Mario</a>
+            <li class="toctree-l1 ">
+                <a class="" href="../fullscreenmario">Fullscreen Mario</a>
             </li>
         
 
@@ -105,7 +112,7 @@
           <div role="navigation" aria-label="breadcrumbs navigation">
   <ul class="wy-breadcrumbs">
     <li><a href="..">Docs</a> &raquo;</li>
-    <li>Fullscreen Mario</li>
+    <li>Appstack-Data</li>
       <li class="wy-breadcrumbs-aside">
         
           
@@ -118,15 +125,34 @@
 </div>
           <div role="main">
             <div class="section">
-              
+              <h1 id="appstack-data">Appstack-Data</h1>
+<p>The Appstack-data image is the heart of any group of linked Appstack images.  It allows you to share storage volumes among the linked containers easily, and to mount volumes from your host into the Appstack stack (eg. /var/lib/mysql, or /var/www/html - for persistence).</p>
+<p><strong>Github Repo:</strong> <a href="https://github.com/DockerDemos/appstack-data">https://github.com/DockerDemos/appstack-data</a></p>
+<p><strong>Issue Tracker:</strong> <a href="https://github.com/DockerDemos/appstack-data/issues">https://github.com/DockerDemos/appstack-data/issues</a></p>
+<p>The Appstack-data image currently allows linked containers to share the following volumes:</p>
+<ul>
+<li>/var/www/html</li>
+<li>/var/lib/mysql</li>
+<li>/var/log</li>
+<li>/var/backup</li>
+<li>/conf</li>
+<li>/root/.secret</li>
+</ul>
+<p>You can mount directories from your host server into these volumes by passing the <code>-v &lt;host directory&gt;:&lt;data container volume&gt;</code> argument when starting the data container.  In addition, volumes can be shared by passing the <code>--volumes-from &lt;data container name&gt;</code> argument to any linked containers when they are started.</p>
+<p>Example of mounting host volumes inside the data container:</p>
+<pre><code>docker run --name data -v /srv/html:/var/www/html -v /srv/mysql:/var/lib/mysql -v /srv/log:/var/log -v /srv/backup:/var/backup -v /srv/conf:/conf -it appstack-data
+</code></pre>
+
             </div>
           </div>
           <footer>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
+        <a href="../http-master" class="btn btn-neutral float-right" title="http-master"/>Next <span class="icon icon-circle-arrow-right"></span></a>
       
-        <a href="../minecraftserver" class="btn btn-neutral" title="Minecraft Server"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+        <a href="../appstack" class="btn btn-neutral" title="Appstack"><span class="icon icon-circle-arrow-left"></span> Previous</a>
       
     </div>
   
@@ -154,8 +180,8 @@
         
             <a class="icon icon-github" style="float: left; color: #fcfcfc"> GitHub</a>
         
-      <span><a href="../minecraftserver" style="color: #fcfcfc;">&laquo; Previous</a></span>
-      <span style="margin-left: 15px"><a href="" style="color: #fcfcfc">Next &raquo;</a></span>
+      <span><a href="../appstack" style="color: #fcfcfc;">&laquo; Previous</a></span>
+      <span style="margin-left: 15px"><a href="../http-master" style="color: #fcfcfc">Next &raquo;</a></span>
     </span>
 </div>
 </body>
