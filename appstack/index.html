@@ -59,13 +59,19 @@
                             
                                 <li><a class="toctree-l3" href="#appstack-mysql">Appstack-MySQL</a></li>
                             
+                                <li><a class="toctree-l3" href="#appstack-phpfpm">Appstack-PHPFPM</a></li>
+                            
                                 <li><a class="toctree-l3" href="#appstack-apache">Appstack-Apache</a></li>
+                            
+                                <li><a class="toctree-l3" href="#appstack-wpcli">Appstack-WPCLI</a></li>
                             
                                 <li><a class="toctree-l3" href="#appstack-drush">Appstack-Drush</a></li>
                             
                                 <li><a class="toctree-l3" href="#appstack-backup">Appstack-Backup</a></li>
                             
                                 <li><a class="toctree-l3" href="#appstack-setup-drupal">Appstack-Setup-Drupal</a></li>
+                            
+                                <li><a class="toctree-l3" href="#appstack-setup-wp">Appstack-Setup-WP</a></li>
                             
                         
                         </ul>
@@ -172,9 +178,11 @@
 <li><a href="#appstack-apache">appstack-apache</a>: An Apache web server container image; designed to offload PHP processing to the appstack-phpfpm containers.</li>
 <li><a href="#appstack-wpcli">appstack-wpcli</a>: A WP-CLI container image, for automating installation, upgrades and management of WordPress sites run in an Appstack container stack.</li>
 <li><a href="#appstack-drush">appstack-drush</a>: A Drush container image, for automating installation, upgrades and management of Drupal sites run in an Appstack container stack.</li>
-<li><a href="#appstack-setup-drupal">appstack-setup-drupal</a>: A Drupal container image for automating the install of a Drupal website  inside an Appstack container stack.</li>
 <li><a href="#appstack-backup">appstack-backup</a>: An container image for automating MariaDB database backups.</li>
 </ul>
+<p><em>Depricated Images</em>
+<em> <a href="#appstack-setup-drupal">appstack-setup-drupal</a>: A Drupal container image for automating the install of a Drupal website inside an Appstack container stack.
+</em> <a href="#appstack-setup-wp">appstack-setup-wp</a>: A WordPress container image for automating WordPress websites installs with other Appstack containers.</p>
 <h2 id="appstack-data">Appstack-Data</h2>
 <p><a name="appstack-data"></a></p>
 <p>The Appstack-data image is the heart of any group of linked Appstack images.  It allows you to share storage volumes among the linked containers easily, and to mount volumes from your host into the Appstack stack (eg. /var/lib/mysql, or /var/www/html - for persistence).</p>
@@ -213,7 +221,8 @@
 <pre><code>docker run --volumes-from data --name db -d appstack-mysql
 </code></pre>
 <p>...where "data" is the name chosen for the data container, and "db" is the name to be assigned to the database container.</p>
-<h2 id="appstack-phpfpm"><a name="appstack-phpfpm">Appstack-PHPFPM</a></h2>
+<h2 id="appstack-phpfpm">Appstack-PHPFPM</h2>
+<p><a name="appstack-phpfpm">Appstack-PHPFPM</a></p>
 <p>The Appstack-PHPFPM image runs a PHP-FPM server and is used for any application stacks that require PHP processing (Basic LAMP, WordPress, etc).</p>
 <p><strong>Github Repo:</strong> <a href="https://github.com/DockerDemos/appstack-phpfpm">https://github.com/DockerDemos/appstack-phpfpm</a></p>
 <p><strong>Issue Tracker:</strong> <a href="https://github.com/DockerDemos/appstack-phpfpm/issues">https://github.com/DockerDemos/appstack-phpfpm/issues</a></p>
@@ -247,7 +256,8 @@
 <p>Example:</p>
 <pre><code>docker run --volumes-from data --link fpm:fpm --name web -p 80:80 -p 443:443 -e 'SITENAME=your.site.name' -d appstack-apache
 </code></pre>
-<h2 id="appstack-wpcli"><a name="appstack-wpcli">Appstack-WPCLI</a></h2>
+<h2 id="appstack-wpcli">Appstack-WPCLI</h2>
+<p><a name="appstack-wpcli">Appstack-WPCLI</a></p>
 <p>The Appstack-WPCLI image is designed to accept all the regular <a href="http://wp-cli.org/commands">WP-CLI commands</a>, as well as run a few helper scripts to assist in automating WordPress managemtn with other Appstack containers.</p>
 <p><strong>Github Repo:</strong> <a href="https://github.com/DockerDemos/appstack-wpcli">https://github.com/DockerDemos/appstack-wpcli</a></p>
 <p><strong>Issue Tracker:</strong> <a href="https://github.com/DockerDemos/appstack-wpcli/issues">https://github.com/DockerDemos/appstack-wpcli/issues</a></p>
@@ -255,7 +265,7 @@
 <p><em>Download WordPress from WordPress.org:</em></p>
 <pre><code>docker run --volumes-from data -w /var/www/html -it appstack-wpcli /scripts/core-download.sh
 </code></pre>
-<p><em>Setup the wp-config.php file:</em></p>
+<p><em>Setup the wp-config.php file inside an Appstack stack (assumes a dbdata.yaml file exists):</em></p>
 <pre><code>docker run --volumes-from data -w /var/www/html -it appstack-wpcli /scripts/core-config.sh
 </code></pre>
 <p>This reads the DB config information from dbdata.yaml, setup by the appstack-setup-mysql container.</p>
@@ -272,14 +282,42 @@
 <p>This lets you run a query (including UPDATE) on the WP database using the info in the wp-config.php file. This way you could potentially pre-configure any specific plugin settings that aren't setup by default - such as the Shibboleth stuff, for instance.</p>
 <h2 id="appstack-drush">Appstack-Drush</h2>
 <p><a name="appstack-drush"></a></p>
-<p><a href="https://github.com/DockerDemos/appstack-drush">https://github.com/DockerDemos/appstack-drush</a></p>
+<p>Appstack-Drush contains a <a href="http://www.drush.org/">Drush</a> install and accepts all standard <a href="http://www.drushcommands.com/">Drush Commands</a>.  The image can be used to install and manage a Drupal website inside linked containers, either the standard Appstack stack, or another Docker container (or even a real host!) In addition to accepting the usual Drush commands when run, the Appstack-Drush image also has a couple of scripts to assist in easily setting up a Drupal install for the first time.</p>
+<p><strong>Github Repo:</strong> <a href="https://github.com/DockerDemos/appstack-drush">https://github.com/DockerDemos/appstack-drush</a></p>
+<p><strong>Issue Tracker:</strong> <a href="https://github.com/DockerDemos/appstack-drush/issues">https://github.com/DockerDemos/appstack-drush/issues</a></p>
+<p><strong>Examples</strong></p>
+<p><em>Note - In these examples:</em></p>
+<ol>
+<li>"db" refers to a Docker container with a running MySQL database in it</li>
+<li>"data" refers to a container with the desired Document Root</li>
+</ol>
+<p><em>Download Drupal core from Drupal.org:</em></p>
+<pre><code>docker run --volumes-from data -w /var/www/html -it appstack-drush /scripts/core-download.sh
+</code></pre>
+<p><em>Run a Drupal install inside of an Appstack stack (assumes a dbdata.yaml file exists):</em></p>
+<pre><code>docker run --volumes-from data --link db:db \
+       -e TITLE=&lt;your_site_title&gt; -e ADMINEMAIL=&lt;admin_emai_address&gt; \
+   -e ADMIN=&lt;admin_username&gt; -e ADMINPASS=&lt;initial_admin_password&gt; \
+   -it appstack-drush /scripts/core-install.sh
+</code></pre>
+<p><em>Disable a Drupal user account:</em></p>
+<pre><code>docker run --volumes-from data --link db:db -it appstack-drush drush ublk --uid &lt;Drush UID of user&gt;
+</code></pre>
+<p><em>Arbitrary SQL Queries:</em></p>
+<pre><code>docker run --volumes-from data --link db:db -it appstack-drush drush sqlq &lt;some SQL query&gt;
+</code></pre>
 <h2 id="appstack-backup">Appstack-Backup</h2>
 <p><a name="appstack-backup"></a></p>
 <p><a href="https://github.com/DockerDemos/appstack-backup">https://github.com/DockerDemos/appstack-backup</a></p>
+<p>Documentation coming soon.</p>
 <h2 id="appstack-setup-drupal">Appstack-Setup-Drupal</h2>
 <p><a name="appstack-setup-drupal"></a></p>
 <p><strong>Appstack-Setup-Drupal is deprecated in favor of appstack-drush, and will no longer be maintained.</strong></p>
-<p><a href="https://github.com/DockerDemos/appstack-setup-drupal">https://github.com/DockerDemos/appstack-setup-drupal</a></p>
+<p>Github Repo: <a href="https://github.com/DockerDemos/appstack-setup-drupal">https://github.com/DockerDemos/appstack-setup-drupal</a></p>
+<h2 id="appstack-setup-wp">Appstack-Setup-WP</h2>
+<p><a name="appstack-setup-wp"></a></p>
+<p><strong>Appstack-Setup-WP is deprecated in favor of appstack-wpcli, and will no longer be maintained.</strong></p>
+<p>Github Repo: <a href="https://github.com/DockerDemos/appstack-setup-wp">https://github.com/DockerDemos/appstack-setup-wp</a></p>
 
             </div>
           </div>
