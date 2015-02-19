@@ -92,6 +92,17 @@
                     
                         <ul>
                         
+                            <li class="toctree-l2"><a href="#fullscreenmario">FullScreenMario</a></li>
+                            
+                                <li><a class="toctree-l3" href="#building-the-image">Building the Image</a></li>
+                            
+                                <li><a class="toctree-l3" href="#running-the-container">Running the Container</a></li>
+                            
+                                <li><a class="toctree-l3" href="#acknowledgements">Acknowledgements</a></li>
+                            
+                                <li><a class="toctree-l3" href="#copyright">Copyright</a></li>
+                            
+                        
                         </ul>
                     
                 </li>
@@ -132,7 +143,38 @@
 </div>
           <div role="main">
             <div class="section">
-              
+              <h1 id="fullscreenmario">FullScreenMario</h1>
+<p>Run a Docker Container and play <a href="http://www.fullscreenmario.com/">Full Screen Mario</a>! This is a Docker image that contains all you need to run a Full Screen Mario server and play through your web browser.</p>
+<p><strong>Github Repo:</strong> <a href="https://github.com/DockerDemos/FullScreenMario">https://github.com/DockerDemos/FullScreenMario</a></p>
+<p><strong>Issue Tracker:</strong> <a href="https://github.com/DockerDemos/FullScreenMario/issues">https://github.com/DockerDemos/FullScreenMario/issues</a></p>
+<h2 id="building-the-image">Building the Image</h2>
+<ol>
+<li><code>git clone https://github.com/DockerDemos/FullScreenMario.git</code></li>
+<li><code>cd FullScreenMario</code></li>
+<li><code>sudo docker build -t fsm .</code>   -- Note the period on the end</li>
+</ol>
+<h2 id="running-the-container">Running the Container</h2>
+<pre><code>docker run -p 80:80 -d fsm
+</code></pre>
+<p>Then, open your browser and navigate to http://localhost and start playing!</p>
+<h2 id="acknowledgements">Acknowledgements</h2>
+<p>Thanks to:</p>
+<ul>
+<li>
+<p>Josh Goldberg <a href="https://github.com/Diogenesthecynic">https://github.com/Diogenesthecynic</a> for his FullScreenMario code on Github.</p>
+</li>
+<li>
+<p>Darin London, for troubleshooting issues with Docker v0.11 and adding the info for boot2docker.</p>
+</li>
+</ul>
+<h2 id="copyright">Copyright</h2>
+<p>Full Scree Mario is licensed under the Creative Commons <a href="http://creativecommons.org/licenses/by-nc-sa/3.0/">Attribution Non-Commercial Share-Alike license</a>.  </p>
+<p>DockerDemos/FullScreenMario docker container files are licensed as follows:</p>
+<p>Copyright (C) 2014 Chris Collins</p>
+<p>This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.</p>
+<p>This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.</p>
+<p>You should have received a copy of the GNU General Public License along with this program. If not, see http://www.gnu.org/licenses/.</p>
+
             </div>
           </div>
           <footer>
