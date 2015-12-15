@@ -199,7 +199,7 @@
 <li>/var/log</li>
 <li>/var/backup</li>
 <li>/conf</li>
-<li>/root/.secret</li>
+<li>/conf/.creds</li>
 </ul>
 <p>You can mount directories from your host server into these volumes by passing the <code>-v &lt;host directory&gt;:&lt;data container volume&gt;</code> argument when starting the data container.  In addition, volumes can be shared by passing the <code>--volumes-from &lt;data container name&gt;</code> argument to any linked containers when they are started.</p>
 <p>Example of mounting host volumes inside the data container:</p>
@@ -211,7 +211,7 @@
 <p><strong>Github Repo:</strong> <a href="https://github.com/DockerDemos/appstack-setup-mysql">https://github.com/DockerDemos/appstack-setup-mysql</a></p>
 <p><strong>Issue Tracker:</strong> <a href="https://github.com/DockerDemos/appstack-setup-mysql/issues">https://github.com/DockerDemos/appstack-setup-mysql/issues</a></p>
 <p>The Appstack-Setup-MySQL image requires only the <code>--volumes-from &lt;data container name&gt;</code> argument to be passed when run.  It does not need anything else to function.</p>
-<p>When run, it will run the <code>mysql_install_db</code> command to initialize the MariaDB database.  It will set the root password, create a backup user and password, and create a randomly-named database.  It will then store this information in <code>/root/.secret/dbdata.yaml</code> in the data container.  The <code>dbdata.yaml</code> file is used by other appstack containers to setup applications requiring a database.</p>
+<p>When run, it will run the <code>mysql_install_db</code> command to initialize the MariaDB database.  It will set the root password, create a backup user and password, and create a randomly-named database.  It will then store this information in <code>/conf/.creds/dbdata.yaml</code> in the data container.  The <code>dbdata.yaml</code> file is used by other appstack containers to setup applications requiring a database.</p>
 <p>Example:</p>
 <pre><code>docker run --volumes-from data -it appstack-setup-mysql
 </code></pre>
